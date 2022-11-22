@@ -1,7 +1,6 @@
 import "./App.css";
 
 import React from "react";
-import Login from "./components/Login";
 import RouteConponent from "./components/Route";
 import NavBar from "./components/Navbar";
 import AlertPopUp from "./components/AlertPopUp";

@@ -8,6 +8,8 @@ import config from "../config";
 import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
 import { actionAlertSuccess, actionAlertError } from "../actions/AlertAction";
+import { actionAssignUser } from "../actions/UserAction";
+import { decodeToken } from "react-jwt";
 
 const cookies = new Cookies();
 const Login = () => {
@@ -30,11 +32,14 @@ const Login = () => {
       .then(({ data: { token, message } }) => {
         cookies.set("auth_token", token);
         dispatch(actionAlertSuccess({ message }));
+        const userData = decodeToken(token);
+        dispatch(actionAssignUser(userData));
         // navigate("/movies_list");
       })
       .catch((err) => {
         let message = errorMessageHandle(err);
         dispatch(actionAlertError({ message }));
+        navigate("/");
       });
   };
   const buttonSumitDisabiled =
