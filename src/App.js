@@ -1,14 +1,22 @@
 import "./App.css";
 
 import React from "react";
-import PostForm from "./components/PostForm";
-import PostAll from "./components/PostAll";
+import Login from "./components/Login";
+import RouteConponent from "./components/Route";
+import NavBar from "./components/Navbar";
+import AlertPopUp from "./components/AlertPopUp";
+
+// import PostForm from "./components/PostForm";
+// import PostAll from "./components/PostAll";
 
 export default function App() {
   return (
     <div className="App">
-      <PostForm />
-      <PostAll />
+      <NavBar/>
+      <AlertPopUp/>
+      <RouteConponent />
+      {/* <PostForm />
+      <PostAll /> */}
       {/* <header className="App-header">
               <img src={logo} className="App-logo" alt="logo" />
               <p>

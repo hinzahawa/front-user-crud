@@ -7,6 +7,11 @@ import { legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
 import allReducer from './reducers'
 import { composeWithDevTools } from "redux-devtools-extension";
+// Bootstrap CSS
+import "bootstrap/dist/css/bootstrap.min.css";
+// Bootstrap Bundle JS
+import "bootstrap/dist/js/bootstrap.bundle.min";
+
 const store = createStore(allReducer, composeWithDevTools());
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
