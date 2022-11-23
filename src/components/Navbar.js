@@ -1,9 +1,13 @@
 import { Container, Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
+
 function NavBar() {
+  const navigate = useNavigate();
   const logout = () => {
-    cookies.remove("auth_token");
+    cookies.remove("XSv8T");
+    navigate('/')
   };
   return (
     <>

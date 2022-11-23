@@ -3,7 +3,7 @@ import { isExpired } from "react-jwt";
 
 const validateToken = () => {
   const cookies = new Cookies();
-  const auth_token = cookies.get("auth_token");
+  const auth_token = cookies.get("XSv8T");
   if (auth_token) {
     if (!isExpired(auth_token)) return true;
   }

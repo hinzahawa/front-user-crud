@@ -30,7 +30,7 @@ const Login = () => {
     axios
       .post(`${config.SERVER}/api/users/login`, { ...formData })
       .then(({ data: { token, message } }) => {
-        cookies.set("auth_token", token);
+        cookies.set("XSv8T", token);
         dispatch(actionAlertSuccess({ message }));
         const userData = decodeToken(token);
         dispatch(actionAssignUser(userData));
