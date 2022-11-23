@@ -25,12 +25,12 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
     birthday: "",
   };
   const [dataUser, setDataUser] = useState({ ...initialState });
-  const [createdUser, setCreatedUser] = useState({});
-  const [updatedUser, setUpdatedUser] = useState({});
+  const [createdUserData, setCreatedUserData] = useState({});
+  const [updatedUserData, setUpdatedUserData] = useState({});
   useEffect(() => {
     if (Object.keys(selectedUserData).length > 0) {
       setDataUser({ ...selectedUserData });
-      setUpdatedUser({ id: selectedUserData.id });
+      setUpdatedUserData({ id: selectedUserData.id });
     }
   }, [selectedUserData]);
   const handleClose = () => {
@@ -40,8 +40,8 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const clearState = () => {
     dispatch(actionClearSelectedDataUser());
     setDataUser({ ...initialState });
-    setCreatedUser({});
-    setUpdatedUser({});
+    setCreatedUserData({});
+    setUpdatedUserData({});
   };
   const onChangeForm = (key, value) => {
     setDataUser((prevState) => ({
@@ -49,11 +49,11 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
       [key]: value,
     }));
     isCreate
-      ? setCreatedUser((prevState) => ({
+      ? setCreatedUserData((prevState) => ({
           ...prevState,
           [key]: value,
         }))
-      : setUpdatedUser((prevState) => ({
+      : setUpdatedUserData((prevState) => ({
           ...prevState,
           [key]: value,
         }));
@@ -61,7 +61,7 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const createUser = () => {
     const URL = `${config.SERVER}/api/users`;
     axios
-      .post(URL, updatedUser, headers())
+      .post(URL, createdUserData, headers())
       .then(({ data: { message } }) => {
         dispatch(actionAlertSuccess({ message }));
         fetchAllUsers();
@@ -75,7 +75,7 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const updateUser = () => {
     const URL = `${config.SERVER}/api/users`;
     axios
-      .put(URL, updatedUser, headers())
+      .put(URL, updatedUserData, headers())
       .then(({ data: { message } }) => {
         dispatch(actionAlertSuccess({ message }));
         fetchAllUsers();
