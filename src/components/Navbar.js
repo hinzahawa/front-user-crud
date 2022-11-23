@@ -18,12 +18,12 @@ function NavBar() {
           <Navbar.Brand href="/users">
             <img
               alt=""
-              src="/logo.svg"
+              src="https://www.bsebti.com/blog/wp-content/uploads/2022/05/Investment-Management-MSc-Promo.jpg"
               width="30"
               height="30"
               className="d-inline-block align-top"
             />{" "}
-            React Bootstrap
+            Users Management
           </Navbar.Brand>
           <Nav className="me-auto">
             <Nav.Link href="/users">Home</Nav.Link>

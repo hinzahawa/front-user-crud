@@ -25,12 +25,9 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
     birthday: "",
   };
   const [dataUser, setDataUser] = useState({ ...initialState });
-  const [createdUserData, setCreatedUserData] = useState({});
-  const [updatedUserData, setUpdatedUserData] = useState({});
   useEffect(() => {
     if (Object.keys(selectedUserData).length > 0) {
       setDataUser({ ...selectedUserData });
-      setUpdatedUserData({ id: selectedUserData.id });
     }
   }, [selectedUserData]);
   const handleClose = () => {
@@ -40,28 +37,17 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const clearState = () => {
     dispatch(actionClearSelectedDataUser());
     setDataUser({ ...initialState });
-    setCreatedUserData({});
-    setUpdatedUserData({});
   };
   const onChangeForm = (key, value) => {
     setDataUser((prevState) => ({
       ...prevState,
       [key]: value,
     }));
-    isCreate
-      ? setCreatedUserData((prevState) => ({
-          ...prevState,
-          [key]: value,
-        }))
-      : setUpdatedUserData((prevState) => ({
-          ...prevState,
-          [key]: value,
-        }));
   };
   const createUser = () => {
     const URL = `${config.SERVER}/api/users`;
     axios
-      .post(URL, createdUserData, headers())
+      .post(URL, dataUser, headers())
       .then(({ data: { message } }) => {
         dispatch(actionAlertSuccess({ message }));
         fetchAllUsers();
@@ -75,7 +61,7 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const updateUser = () => {
     const URL = `${config.SERVER}/api/users`;
     axios
-      .put(URL, updatedUserData, headers())
+      .put(URL, dataUser, headers())
       .then(({ data: { message } }) => {
         dispatch(actionAlertSuccess({ message }));
         fetchAllUsers();
@@ -119,6 +105,7 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
                   onChangeForm("username", value)
                 }
                 value={dataUser.username}
+                disabled={!isCreate}
               />
             </Form.Group>
             <Form.Group className="mb-3">
