@@ -18,7 +18,7 @@ const Login = () => {
   const [formData, setData] = useState({ username: "", password: "" });
   useEffect(() => {
     if (validateToken()) navigate("/users");
-  }, []);
+  }, [navigate]);
   const onChangeForm = ({ key, value }) => {
     setData((prevState) => ({
       ...prevState,

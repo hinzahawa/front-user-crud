@@ -5,18 +5,18 @@ import {
   actionAlertError,
   actionAlertSuccess,
 } from "../../actions/AlertAction";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import config from "../../config";
 import errorMessageHandle from "../../helper/errorMessageHandle";
 import headers from "../../helper/headersAPI";
+import {
+  actionClearSelectedDataUser,
+  actionFetchUser,
+} from "../../actions/UserAction";
 
-const ModalShow = ({
-  isShow = false,
-  isCreate = false,
-  selectedUserData = {},
-  closeModal,
-}) => {
+const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
   const dispatch = useDispatch();
+  const { selectedUserData } = useSelector((state) => state.usersDataList);
   const initialState = {
     username: "",
     firstname: "",
@@ -38,6 +38,7 @@ const ModalShow = ({
     closeModal();
   };
   const clearState = () => {
+    dispatch(actionClearSelectedDataUser());
     setDataUser({ ...initialState });
     setCreatedUser({});
     setUpdatedUser({});
@@ -58,28 +59,30 @@ const ModalShow = ({
         }));
   };
   const saveUser = (e) => {
-    // e.preventDefault();
-    if (isCreate)
-      axios
-        .post(`${config.SERVER}/api/users`, createdUser, headers())
-        .then(({ data: { message } }) => {
-          dispatch(actionAlertSuccess({ message }));
-        })
-        .catch((err) => {
-          let message = errorMessageHandle(err);
-          dispatch(actionAlertError({ message }));
-        });
-    else
-      axios
-        .put(`${config.SERVER}/api/users`, updatedUser, headers())
-        .then(({ data: { message } }) => {
-          dispatch(actionAlertSuccess({ message }));
-        })
-        .catch((err) => {
-          let message = errorMessageHandle(err);
-          dispatch(actionAlertError({ message }));
-        });
-    handleClose();
+    e.preventDefault();
+    const URL = `${config.SERVER}/api/users`;
+    const CALL_API = isCreate
+      ? axios.post(URL, createdUser, headers())
+      : axios.put(URL, updatedUser, headers());
+    CALL_API.then(({ data: { message } }) => {
+      dispatch(actionAlertSuccess({ message }));
+    })
+      .catch((err) => {
+        let message = errorMessageHandle(err);
+        dispatch(actionAlertError({ message }));
+      })
+      .finally(() => {
+        axios
+          .get(`${config.SERVER}/api/users`, headers())
+          .then(({ data }) => {
+            dispatch(actionFetchUser(data));
+          })
+          .catch((err) => {
+            let message = errorMessageHandle(err);
+            dispatch(actionAlertError({ message }));
+          });
+        handleClose();
+      });
   };
   return (
     <>

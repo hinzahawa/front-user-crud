@@ -4,4 +4,26 @@ const actionAssignUser = (data) => {
     payload: data,
   };
 };
-module.exports = { actionAssignUser };
+const actionFetchUser = (data) => {
+  return {
+    type: "FETCH_USER",
+    payload: data,
+  };
+};
+const actionSelectedDataUser = (data) => {
+  return {
+    type: "SELECTED_USER",
+    payload: data,
+  };
+};
+const actionClearSelectedDataUser = (data) => {
+  return {
+    type: "CLEAR_SELECTED_USER",
+  };
+};
+module.exports = {
+  actionAssignUser,
+  actionFetchUser,
+  actionSelectedDataUser,
+  actionClearSelectedDataUser,
+};

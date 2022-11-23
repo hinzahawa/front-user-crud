@@ -2,23 +2,31 @@ import { useEffect, useState } from "react";
 import { Table, Button, Container, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import config from "../../config";
-import { useDispatch } from "react-redux";
-import { actionAlertError } from "../../actions/AlertAction";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  actionAlertError,
+  actionAlertSuccess,
+} from "../../actions/AlertAction";
 import errorMessageHandle from "../../helper/errorMessageHandle";
 import ModalShow from "./ModalShow";
 import validateToken from "../../helper/validateToken";
 import { useNavigate } from "react-router-dom";
 import headers from "../../helper/headersAPI";
 import Cookies from "universal-cookie";
+import {
+  actionFetchUser,
+  actionSelectedDataUser,
+} from "../../actions/UserAction";
+import Swal from "sweetalert2";
+
 const cookies = new Cookies();
 
 function TableUsers() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [usersData, setUsersData] = useState([]);
+  const { usersList } = useSelector((state) => state.usersDataList);
   const [isShow, setIsShow] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
-  const [selectedUserData, setSelectedUserData] = useState({});
   const openModal = (isCreate) => {
     setIsShow(true);
     setIsCreate(isCreate);
@@ -27,20 +35,17 @@ function TableUsers() {
     setIsShow(false);
     setIsCreate(false);
   };
-  const selectedUser = ({ ...user }) => {
+  const selectedUser = (user) => {
     const initialUser = { ...user };
-    if (initialUser) {
-      initialUser.password = "";
-      openModal(false);
-      setSelectedUserData({ ...initialUser });
-    }
+    dispatch(actionSelectedDataUser(initialUser));
+    openModal(false);
   };
   useEffect(() => {
     if (validateToken())
       axios
         .get(`${config.SERVER}/api/users`, headers())
         .then(({ data }) => {
-          setUsersData(data);
+          dispatch(actionFetchUser(data));
         })
         .catch((err) => {
           let message = errorMessageHandle(err);
@@ -50,9 +55,41 @@ function TableUsers() {
       cookies.remove("XSv8T");
       navigate("/");
     }
-  }, []);
+  }, [dispatch, navigate]);
+  const deleteUser = (id) => {
+    Swal.fire( {
+      title: "Do you want to save the changes?",
+      showDenyButton: true,
+      showCancelButton: true,
+      confirmButtonText: "Delete",
+    }).then(({ value }) => {
+      if (value) {
+        const URL = `${config.SERVER}/api/users?id=${id}`;
+        axios
+          .delete(URL, headers())
+          .then(({ data: { message } }) => {
+            dispatch(actionAlertSuccess({ message }));
+          })
+          .catch((err) => {
+            let message = errorMessageHandle(err);
+            dispatch(actionAlertError({ message }));
+          })
+          .finally(() => {
+            axios
+              .get(`${config.SERVER}/api/users`, headers())
+              .then(({ data }) => {
+                dispatch(actionFetchUser(data));
+              })
+              .catch((err) => {
+                let message = errorMessageHandle(err);
+                dispatch(actionAlertError({ message }));
+              });
+          });
+      }
+    });
+  };
   return (
-    <Container>
+    <Container className="mt-5">
       <Row className="justify-content-md-center">
         <Col xs md lg="12">
           <Table striped bordered hover responsive>
@@ -68,7 +105,7 @@ function TableUsers() {
               </tr>
             </thead>
             <tbody>
-              {usersData.map((user, index) => {
+              {usersList.map((user, index) => {
                 return (
                   <tr key={index}>
                     <td>{index + 1}</td>
@@ -86,17 +123,23 @@ function TableUsers() {
                       >
                         Edit
                       </Button>{" "}
-                      <Button variant="danger">Delete</Button>
+                      <Button
+                        variant="danger"
+                        onClick={() => {
+                          deleteUser(user.id);
+                        }}
+                      >
+                        Delete
+                      </Button>
                     </td>
                   </tr>
                 );
               })}
-              {/* <AddUserTable /> */}
               <ModalShow
                 isShow={isShow}
                 isCreate={isCreate}
                 closeModal={closeModal}
-                selectedUserData={selectedUserData}
+                // selectedUserData={selectedUserData}
               />
             </tbody>
           </Table>

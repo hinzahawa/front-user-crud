@@ -1,5 +1,5 @@
 import Cookies from "universal-cookie";
-import { isExpired, decodeToken } from "react-jwt";
+import { isExpired } from "react-jwt";
 
 const validateToken = () => {
   const cookies = new Cookies();
