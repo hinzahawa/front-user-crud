@@ -1,6 +1,6 @@
 const actionAssignUser = (data) => {
   return {
-    type: "ASSIGN_USER",
+    type: "ASSIGN_MY_USER",
     payload: data,
   };
 };

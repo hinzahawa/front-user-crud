@@ -18,6 +18,7 @@ import {
   actionSelectedDataUser,
 } from "../../actions/UserAction";
 import Swal from "sweetalert";
+import SetDataUserStore from "../../helper/asignUserData";
 
 const cookies = new Cookies();
 
@@ -25,6 +26,7 @@ function TableUsers() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { usersList } = useSelector((state) => state.usersDataList);
+  const userData = useSelector((state) => state.userData);
   const [isShow, setIsShow] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const openModal = (isCreate) => {
@@ -41,7 +43,8 @@ function TableUsers() {
     openModal(false);
   };
   useEffect(() => {
-    if (validateToken())
+    if (validateToken()) {
+      SetDataUserStore(dispatch);
       axios
         .get(`${config.SERVER}/api/users`, headers())
         .then(({ data }) => {
@@ -51,7 +54,7 @@ function TableUsers() {
           let message = errorMessageHandle(err);
           dispatch(actionAlertError({ message }));
         });
-    else {
+    } else {
       cookies.remove("XSv8T");
       navigate("/");
     }
@@ -102,7 +105,7 @@ function TableUsers() {
                 <th>Last Name</th>
                 <th>Birthday</th>
                 {/* <th>Password</th> */}
-                <th>action</th>
+                <th className="text-center">action</th>
               </tr>
             </thead>
             <tbody>

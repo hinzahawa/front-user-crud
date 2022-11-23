@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import { actionAlertSuccess, actionAlertError } from "../actions/AlertAction";
 import { actionAssignUser } from "../actions/UserAction";
 import { decodeToken } from "react-jwt";
+import SetDataUserStore from "../helper/asignUserData";
 const cookies = new Cookies();
 
 const Login = () => {
@@ -31,9 +32,8 @@ const Login = () => {
       .post(`${config.SERVER}/api/users/login`, { ...formData })
       .then(({ data: { token, message } }) => {
         cookies.set("XSv8T", token);
+        SetDataUserStore(dispatch, token);
         dispatch(actionAlertSuccess({ message }));
-        const userData = decodeToken(token);
-        dispatch(actionAssignUser(userData));
         navigate("/users");
       })
       .catch((err) => {

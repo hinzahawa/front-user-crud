@@ -1,13 +1,15 @@
 import { Container, Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 function NavBar() {
+  const userData = useSelector((state) => state.userData);
   const navigate = useNavigate();
   const logout = () => {
     cookies.remove("XSv8T");
-    navigate('/')
+    navigate("/");
   };
   return (
     <>
@@ -40,11 +42,8 @@ function NavBar() {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.2">
-                Another action
-              </NavDropdown.Item>
-              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">{userData.username}</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Setting</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
                 onClick={() => {
