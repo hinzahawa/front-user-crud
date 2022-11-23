@@ -2,6 +2,7 @@ import { Container, Navbar, Nav, NavDropdown, Image } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
+import validateToken from "../helper/validateToken";
 const cookies = new Cookies();
 
 function NavBar() {
@@ -11,20 +12,10 @@ function NavBar() {
     cookies.remove("XSv8T");
     navigate("/");
   };
-  return (
-    <>
-      <Navbar bg="dark" variant="dark">
-        <Container>
-          <Navbar.Brand href="/users">
-            <img
-              alt=""
-              src="https://www.bsebti.com/blog/wp-content/uploads/2022/05/Investment-Management-MSc-Promo.jpg"
-              width="30"
-              height="30"
-              className="d-inline-block align-top"
-            />{" "}
-            Users Management
-          </Navbar.Brand>
+  const Menu = () => {
+    if (validateToken()) {
+      return (
+        <>
           <Nav className="me-auto">
             <Nav.Link href="/users">Home</Nav.Link>
             <Nav.Link href="#features">Features</Nav.Link>
@@ -42,7 +33,9 @@ function NavBar() {
               }
               id="collasible-nav-dropdown"
             >
-              <NavDropdown.Item href="#action/3.1">{userData.username}</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.1">
+                {userData.username}
+              </NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Setting</NavDropdown.Item>
               <NavDropdown.Divider />
               <NavDropdown.Item
@@ -54,6 +47,25 @@ function NavBar() {
               </NavDropdown.Item>
             </NavDropdown>
           </Nav>
+        </>
+      );
+    }
+  };
+  return (
+    <>
+      <Navbar bg="dark" variant="dark">
+        <Container>
+          <Navbar.Brand href="/users">
+            <img
+              alt=""
+              src="https://www.bsebti.com/blog/wp-content/uploads/2022/05/Investment-Management-MSc-Promo.jpg"
+              width="30"
+              height="30"
+              className="d-inline-block align-top"
+            />{" "}
+            Users Management
+          </Navbar.Brand>
+          <Menu />
         </Container>
       </Navbar>
     </>
