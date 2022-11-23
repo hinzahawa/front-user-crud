@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import Login from "./Login.js";
+import NotFound from "./NotFound.js";
 import Users from "./Users/Users.js";
 
 const RouteConponent = () => {
@@ -9,7 +10,7 @@ const RouteConponent = () => {
       <Routes>
         <Route path="/" exact element={<Login />}></Route>
         <Route path="/users" exact element={<Users />}></Route>
-        {/* <Route path="*" element={<NotFound/>}/> */}
+        <Route path="*" element={<NotFound/>}/>
       </Routes>
       {/* </Router> */}
     </>
