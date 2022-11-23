@@ -10,14 +10,14 @@ import { useDispatch } from "react-redux";
 import { actionAlertSuccess, actionAlertError } from "../actions/AlertAction";
 import { actionAssignUser } from "../actions/UserAction";
 import { decodeToken } from "react-jwt";
-
 const cookies = new Cookies();
+
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setData] = useState({ username: "", password: "" });
   useEffect(() => {
-    // if (validateToken()) navigate("/movies_list");
+    if (validateToken()) navigate("/users");
   }, []);
   const onChangeForm = ({ key, value }) => {
     setData((prevState) => ({
@@ -25,7 +25,7 @@ const Login = () => {
       [key]: value,
     }));
   };
-  const LoginServer = async (event) => {
+  const LoginServer = (event) => {
     event.preventDefault();
     axios
       .post(`${config.SERVER}/api/users/login`, { ...formData })
@@ -34,7 +34,7 @@ const Login = () => {
         dispatch(actionAlertSuccess({ message }));
         const userData = decodeToken(token);
         dispatch(actionAssignUser(userData));
-        // navigate("/movies_list");
+        navigate("/users");
       })
       .catch((err) => {
         let message = errorMessageHandle(err);

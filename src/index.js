@@ -5,12 +5,13 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { legacy_createStore as createStore } from "redux";
 import { Provider } from "react-redux";
-import allReducer from './reducers'
+import allReducer from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
 // Bootstrap CSS
 import "bootstrap/dist/css/bootstrap.min.css";
 // Bootstrap Bundle JS
 import "bootstrap/dist/js/bootstrap.bundle.min";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const store = createStore(allReducer, composeWithDevTools());
 
@@ -19,7 +20,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <Router>
+        <App />
+      </Router>
     </Provider>
   </React.StrictMode>
 );
