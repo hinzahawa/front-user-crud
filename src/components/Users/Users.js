@@ -26,7 +26,6 @@ function TableUsers() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { usersList } = useSelector((state) => state.usersDataList);
-  const userData = useSelector((state) => state.userData);
   const [isShow, setIsShow] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const openModal = (isCreate) => {
@@ -143,7 +142,6 @@ function TableUsers() {
                 isShow={isShow}
                 isCreate={isCreate}
                 closeModal={closeModal}
-                // selectedUserData={selectedUserData}
               />
             </tbody>
           </Table>

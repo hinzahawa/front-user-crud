@@ -8,8 +8,6 @@ import config from "../config";
 import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
 import { actionAlertSuccess, actionAlertError } from "../actions/AlertAction";
-import { actionAssignUser } from "../actions/UserAction";
-import { decodeToken } from "react-jwt";
 import SetDataUserStore from "../helper/asignUserData";
 const cookies = new Cookies();
 
