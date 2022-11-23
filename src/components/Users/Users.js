@@ -17,7 +17,7 @@ import {
   actionFetchUser,
   actionSelectedDataUser,
 } from "../../actions/UserAction";
-import Swal from "sweetalert2";
+import Swal from "sweetalert";
 
 const cookies = new Cookies();
 
@@ -57,12 +57,13 @@ function TableUsers() {
     }
   }, [dispatch, navigate]);
   const deleteUser = (id) => {
-    Swal.fire( {
-      title: "Do you want to save the changes?",
-      showDenyButton: true,
-      showCancelButton: true,
-      confirmButtonText: "Delete",
-    }).then(({ value }) => {
+    Swal({
+      title: "Are you sure?",
+      text: "Once deleted, you will not be able to recover this user!",
+      icon: "warning",
+      buttons: true,
+      dangerMode: true,
+    }).then((value) => {
       if (value) {
         const URL = `${config.SERVER}/api/users?id=${id}`;
         axios
