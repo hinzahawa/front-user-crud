@@ -58,31 +58,49 @@ const ModalShow = ({ isShow = false, isCreate = false, closeModal }) => {
           [key]: value,
         }));
   };
-  const saveUser = (e) => {
-    e.preventDefault();
+  const createUser = () => {
     const URL = `${config.SERVER}/api/users`;
-    const CALL_API = isCreate
-      ? axios.post(URL, createdUser, headers())
-      : axios.put(URL, updatedUser, headers());
-    CALL_API.then(({ data: { message } }) => {
-      dispatch(actionAlertSuccess({ message }));
-    })
+    axios
+      .post(URL, updatedUser, headers())
+      .then(({ data: { message } }) => {
+        dispatch(actionAlertSuccess({ message }));
+        fetchAllUsers();
+        handleClose();
+      })
       .catch((err) => {
         let message = errorMessageHandle(err);
         dispatch(actionAlertError({ message }));
-      })
-      .finally(() => {
-        axios
-          .get(`${config.SERVER}/api/users`, headers())
-          .then(({ data }) => {
-            dispatch(actionFetchUser(data));
-          })
-          .catch((err) => {
-            let message = errorMessageHandle(err);
-            dispatch(actionAlertError({ message }));
-          });
-        handleClose();
       });
+  };
+  const updateUser = () => {
+    const URL = `${config.SERVER}/api/users`;
+    axios
+      .put(URL, updatedUser, headers())
+      .then(({ data: { message } }) => {
+        dispatch(actionAlertSuccess({ message }));
+        fetchAllUsers();
+        handleClose();
+      })
+      .catch((err) => {
+        let message = errorMessageHandle(err);
+        dispatch(actionAlertError({ message }));
+      });
+  };
+  const fetchAllUsers = () => {
+    axios
+      .get(`${config.SERVER}/api/users`, headers())
+      .then(({ data }) => {
+        dispatch(actionFetchUser(data));
+      })
+      .catch((err) => {
+        let message = errorMessageHandle(err);
+        dispatch(actionAlertError({ message }));
+      });
+  };
+  const saveUser = (e) => {
+    e.preventDefault();
+    if (isCreate) createUser();
+    else updateUser();
   };
   return (
     <>
