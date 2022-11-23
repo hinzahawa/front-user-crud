@@ -38,6 +38,7 @@ function TableUsers() {
   };
   const selectedUser = (user) => {
     const initialUser = { ...user };
+    delete initialUser.password;
     dispatch(actionSelectedDataUser(initialUser));
     openModal(false);
   };
@@ -58,6 +59,17 @@ function TableUsers() {
       navigate("/");
     }
   }, [dispatch, navigate]);
+  const fetchAllUsers = () => {
+    axios
+      .get(`${config.SERVER}/api/users`, headers())
+      .then(({ data }) => {
+        dispatch(actionFetchUser(data));
+      })
+      .catch((err) => {
+        let message = errorMessageHandle(err);
+        dispatch(actionAlertError({ message }));
+      });
+  };
   const deleteUser = (id) => {
     Swal({
       title: "Are you sure?",
@@ -72,21 +84,11 @@ function TableUsers() {
           .delete(URL, headers())
           .then(({ data: { message } }) => {
             dispatch(actionAlertSuccess({ message }));
+            fetchAllUsers();
           })
           .catch((err) => {
             let message = errorMessageHandle(err);
             dispatch(actionAlertError({ message }));
-          })
-          .finally(() => {
-            axios
-              .get(`${config.SERVER}/api/users`, headers())
-              .then(({ data }) => {
-                dispatch(actionFetchUser(data));
-              })
-              .catch((err) => {
-                let message = errorMessageHandle(err);
-                dispatch(actionAlertError({ message }));
-              });
           });
       }
     });
