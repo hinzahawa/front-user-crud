@@ -1,6 +1,5 @@
 import { Button, Form, Card, Container, Row, Col } from "react-bootstrap";
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import validateToken from "../helper/validateToken";
 import errorMessageHandle from "../helper/errorMessageHandle";
@@ -9,6 +8,7 @@ import Cookies from "universal-cookie";
 import { useDispatch } from "react-redux";
 import { actionAlertSuccess, actionAlertError } from "../actions/AlertAction";
 import SetDataUserStore from "../helper/asignUserData";
+import axios from "axios";
 const cookies = new Cookies();
 
 const Login = () => {
