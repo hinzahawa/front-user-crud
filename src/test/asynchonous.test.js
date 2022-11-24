@@ -6,5 +6,5 @@ test("render user data",async () => {
   //   username: "test",
   // };
   render(<DemoUnitTest2 />);
-  screen.debug()
+  // screen.debug()
 });
