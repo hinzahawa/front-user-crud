@@ -10,11 +10,7 @@ function DemoUnitTest2() {
   const initialState = [1, 2, 3, 4, 5];
   const fetchUser = async () => {
     // await new Promise((resolve) => setTimeout(resolve, 2000));
-    const { data } = await axios.get(`http://localhost:3000/api/users`, {
-      headers: {
-        Authorization: `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwidXNlcm5hbWUiOiJ0ZXN0MSIsImlhdCI6MTY2OTM1MTc2NiwiZXhwIjoxNjY5NDM4MTY2fQ.EmTLk3YnfPH-RdnLhbs4TL4-Ha0uxeYbT2srHqkHi9k`,
-      },
-    });
+    const { data } = await axios.get(`${config.SERVER}/api/users`, headers());
     setUsers(data);
   };
   useEffect(() => {

@@ -17,10 +17,17 @@ test("render user data", async () => {
   const calMock = jest.spyOn(Cal, "add").mockImplementation((a, b) => {
     return 99;
   });
-  const axiosMock = jest.spyOn(axios, "get").mockImplementation((url,header) => {
-  console.log("%c 🕒: url,data ", "font-size:16px;background-color:#00a43c;color:white;", url,header)
-    return Promise.resolve({ data: fakeUser });
-  });
+  const axiosMock = jest
+    .spyOn(axios, "get")
+    .mockImplementation((url, header) => {
+      console.log(
+        "%c 🕒: url,data ",
+        "font-size:16px;background-color:#00a43c;color:white;",
+        url,
+        header
+      );
+      return Promise.resolve({ data: fakeUser });
+    });
   render(<DemoUnitTest2 />);
   // ใช้แบบ promise
   // await new Promise((resolve) => setTimeout(resolve, 3000));

@@ -97,7 +97,7 @@ function TableUsers() {
     <Container className="mt-5">
       <Row className="justify-content-md-center">
         <Col xs md lg="12">
-          <Table striped bordered hover responsive>
+          <Table striped bordered hover responsive role="table-list-users">
             <thead>
               <tr>
                 <th>No.</th>
@@ -112,7 +112,8 @@ function TableUsers() {
             <tbody>
               {usersList.map((user, index) => {
                 return (
-                  <tr key={index}>
+                  // eslint-disable-next-line jsx-a11y/aria-role
+                  <tr key={index} role="row-user">
                     <td>{index + 1}</td>
                     <td>{user.username}</td>
                     <td>{user.firstname}</td>
@@ -121,6 +122,7 @@ function TableUsers() {
                     {/* <td>{user.password}</td> */}
                     <td className="text-center">
                       <Button
+                        role={`btn-row-user-${index}`}
                         variant="warning"
                         onClick={() => {
                           selectedUser(user);

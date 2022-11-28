@@ -52,11 +52,12 @@ const Login = () => {
               <Card.Body>
                 <Form onSubmit={LoginServer}>
                   <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Email or Username</Form.Label>
+                    <Form.Label>Username</Form.Label>
                     <Form.Control
                       type="text"
                       placeholder="Enter email or username"
                       value={formData.username}
+                      required
                       onChange={({ target: { value } }) =>
                         onChangeForm({ key: "username", value })
                       }
@@ -68,6 +69,7 @@ const Login = () => {
                       type="password"
                       placeholder="Password"
                       value={formData.password}
+                      required
                       onChange={({ target: { value } }) =>
                         onChangeForm({ key: "password", value })
                       }

@@ -57,7 +57,7 @@ function NavBar() {
         <Container>
           <Navbar.Brand href="/users">
             <img
-              alt=""
+              alt="logo"
               src="https://www.bsebti.com/blog/wp-content/uploads/2022/05/Investment-Management-MSc-Promo.jpg"
               width="30"
               height="30"
