@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import App from "./App";
-import { BrowserRouter as Router, useLocation  } from "react-router-dom";
+import { BrowserRouter as Router, useLocation } from "react-router-dom";
 import { legacy_createStore as createStore } from "redux";
 import allReducer from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";
@@ -85,7 +85,7 @@ test("login", async () => {
   expect(await screen.findByText("Success")).toBeInTheDocument();
   expect(await screen.findByText("login successfully.")).toBeInTheDocument();
   expect(closeBtn).toBeInTheDocument();
-  
+
   //close alertPopup
   fireEvent.click(closeBtn);
   expect(alertPopup).not.toBeInTheDocument();
@@ -103,4 +103,32 @@ test("login", async () => {
   expect(rowUser.length).toBeGreaterThan(0);
   expect(await screen.findByRole("btn-row-user-0")).toBeInTheDocument();
   screen.debug();
+});
+
+test("log out", async () => {
+  render(
+    <Provider store={store}>
+      <Router>
+        <App />
+      </Router>
+    </Provider>
+  );
+  // const buttonLogin = screen.getByRole("button", { name: "Log in" });
+  // fireEvent.change(inputUsername, { target: { value: "test1" } });
+  // fireEvent.change(inputPassword, { target: { value: "123" } });
+  // fireEvent.click(buttonLogin);
+  const buttonUserDropdown = await screen.findByAltText(
+    "UserName profile image"
+  );
+  fireEvent.click(buttonUserDropdown);
+  const buttonLogout = await screen.findByRole("button", { name: "Log out" });
+  fireEvent.click(buttonLogout);
+  screen.debug();
+  const inputUsername = await screen.findByLabelText("Username");
+  const inputPassword = await screen.findByLabelText("Password");
+  const buttonLogin = screen.getByRole("button", { name: "Log in" });
+  expect(inputUsername).toBeInTheDocument()
+  expect(inputPassword).toBeInTheDocument() 
+  expect(buttonLogin).toBeInTheDocument()   
+  expect(buttonLogin).toBeDisabled()   
 });
