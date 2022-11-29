@@ -113,10 +113,6 @@ test("log out", async () => {
       </Router>
     </Provider>
   );
-  // const buttonLogin = screen.getByRole("button", { name: "Log in" });
-  // fireEvent.change(inputUsername, { target: { value: "test1" } });
-  // fireEvent.change(inputPassword, { target: { value: "123" } });
-  // fireEvent.click(buttonLogin);
   const buttonUserDropdown = await screen.findByAltText(
     "UserName profile image"
   );
