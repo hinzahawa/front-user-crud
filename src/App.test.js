@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { Provider } from "react-redux";
 import App from "./App";
-import { BrowserRouter as Router, useLocation } from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
 import { legacy_createStore as createStore } from "redux";
 import allReducer from "./reducers";
 import { composeWithDevTools } from "redux-devtools-extension";

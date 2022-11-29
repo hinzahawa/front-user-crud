@@ -45,15 +45,7 @@ function TableUsers() {
   useEffect(() => {
     if (validateToken()) {
       SetDataUserStore(dispatch);
-      axios
-        .get(`${config.SERVER}/api/users`, headers())
-        .then(({ data }) => {
-          dispatch(actionFetchUser(data));
-        })
-        .catch((err) => {
-          let message = errorMessageHandle(err);
-          dispatch(actionAlertError({ message }));
-        });
+      fetchAllUsers()
     } else {
       cookies.remove("XSv8T");
       navigate("/");
