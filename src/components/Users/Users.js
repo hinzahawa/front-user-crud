@@ -123,6 +123,7 @@ function TableUsers() {
                         Edit
                       </Button>{" "}
                       <Button
+                       role={`btn-row-user-del-${index}`}
                         variant="danger"
                         onClick={() => {
                           deleteUser(user.id);
